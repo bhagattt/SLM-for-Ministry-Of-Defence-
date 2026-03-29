@@ -1,0 +1,21 @@
+# MoD SLM Gitignore
+
+# Big model weights (GitHub limit 100MB)
+best_model.pt
+hf_mod_model/
+checkpoints/
+
+# System / Cache
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+training_log.txt
+test_output.txt
+cached_lm_*
+
+# Large corpus outputs
+mod_slm_stage1_corpus.txt
+
+# Tokenizer artifacts (smaller, but can be retrained)
+tokenizer_vocab.json
+tokenizer_merges.txt

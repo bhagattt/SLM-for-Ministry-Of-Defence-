@@ -1,0 +1,26 @@
+# MoD Synthetic Corpus - Volume 3
+# Specific Focus: Definitions and Frequently Asked Questions (FAQ)
+
+Question: What is MoD?
+Answer: The Ministry of Defence (MoD) is the government department responsible for coordinating and supervising all agencies and functions of the government relating directly to national security and the Indian Armed Forces. The MoD has the largest budget among all federal departments in India. It is headed by the Raksha Mantri (Minister of Defence) and consists of the Department of Defence (DoD), Department of Military Affairs (DMA), Department of Defence Production (DDP), Department of Defence Research and Development (DR&D), and Department of Ex-Servicemen Welfare (DESW).
+
+Question: What is the Role of the CDS?
+Answer: The Chief of Defence Staff (CDS) is the professional head of the Indian Armed Forces and the senior-most uniformed military adviser to the Government of India. The CDS acts as the permanent Chairman of the Chiefs of Staff Committee and heads the Department of Military Affairs (DMA). The goal of the CDS is to ensure jointness in operations, procurement, training, and logistics among the Army, Navy, and Air Force.
+
+Question: What is the Agnipath Scheme?
+Answer: The Agnipath Scheme is a recruitment process for personnel below the rank of officer into the three services of the Indian Armed Forces. Under this scheme, recruits are known as Agniveers and serve for a tenure of four years. After the completion of four years, a percentage of Agniveers are enrolled in the regular cadre while others receive the Seva Nidhi financial package to facilitate their transition to civilian life.
+
+Question: What is Aatmanirbharta in Defence?
+Answer: Aatmanirbharta in Defence refers to India's initiative to achieve self-reliance in the production of weapons, platforms, and military technology. This is achieved through the Defence Acquisition Procedure (DAP) 2020, which prioritizes Indian-IDDM (Indigenously Designed, Developed and Manufactured) categories. The Ministry of Defence issues Negative Indigenization Lists (Positive Indigenization Lists) which ban the import of certain items to promote local manufacturing.
+
+Question: What is the function of DRDO?
+Answer: The Defence Research and Development Organisation (DRDO) is a premier agency under the Ministry of Defence responsible for the design and development of state-of-the-art defence systems and technologies. Key DRDO projects include missiles (Agni, Prithvi, Akash), tanks (Arjun), aircraft (Tejas), and electronic warfare suites.
+
+Question: What is the ECHS?
+Answer: The Ex-Servicemen Contributory Health Scheme (ECHS) is a flagship health scheme of the Ministry of Defence that provide comprehensive and quality medical care to ex-servicemen pensioners and their dependents. It operates through a network of polyclinics and empanelled private hospitals across India.
+
+Question: What are the ranks in the Indian Army?
+Answer: The ranks in the Indian Army for commissioned officers start from Lieutenant, followed by Captain, Major, Lieutenant Colonel, Colonel, Brigadier, Major General, Lieutenant General, and General (Chief of the Army Staff). The honorary rank of Field Marshal is the highest possible rank but is rarely conferred.
+
+Question: What is the significance of INS Vikrant?
+Answer: INS Vikrant is India's first indigenously designed and built aircraft carrier. It was constructed by Cochin Shipyard Limited and inducted into the Indian Navy in 2022. It represents a major milestone in India's journey towards maritime self-reliance and the 'Make in India' initiative.

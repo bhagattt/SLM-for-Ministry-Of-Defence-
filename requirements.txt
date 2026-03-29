@@ -1,0 +1,13 @@
+# MoD-SLM Project Requirements
+# Optimized for RTX 3050 (4GB)
+
+# Core PyTorch (use these for CUDA-specific install)
+#   pip install torch --index-url https://download.pytorch.org/whl/cu121
+#   pip install transformers datasets accelerate numpy tqdm
+
+torch
+numpy
+tqdm
+transformers
+datasets
+accelerate
