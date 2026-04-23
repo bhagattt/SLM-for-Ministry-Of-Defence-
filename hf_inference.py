@@ -10,11 +10,11 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, pipeline
 
 # Path to the fine-tuned model
-MODEL_DIR = "./hf_mod_model"
+MODEL_DIR = "models/hf_fine_tuned"
 
 def run_inference():
     print("="*60)
-    print("  MoD SLM — HF GPT-2 Inference Interface")
+    print("  MoD SLM -- HF GPT-2 Inference Interface")
     print("  Note: This model uses the pre-trained GPT-2 backbone.")
     print("  Type 'quit' or 'exit' to stop.")
     print("="*60)

@@ -1,21 +1,36 @@
-# MoD SLM Gitignore
+# MoD SLM - Optimized Gitignore
 
-# Big model weights (GitHub limit 100MB)
-best_model.pt
-hf_mod_model/
-checkpoints/
-
-# System / Cache
+# Python & System
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+.env
+.pytest_cache/
+.coverage
+htmlcov/
 .ipynb_checkpoints/
-training_log.txt
-test_output.txt
-cached_lm_*
 
-# Large corpus outputs
-mod_slm_stage1_corpus.txt
+# Model Weights & Artifacts (Large Files)
+models/custom/best_model.pt
+models/hf_fine_tuned/
+models/checkpoints/
+models/training_log.txt
+models/logs/
 
-# Tokenizer artifacts (smaller, but can be retrained)
-tokenizer_vocab.json
-tokenizer_merges.txt
+# Data (Avoid pushing large datasets)
+data/processed/mod_slm_stage1_corpus.txt
+data/processed/*.cache
+data/processed/*.pt
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# VS Code / IDE
+.vscode/
+.idea/

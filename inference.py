@@ -15,7 +15,7 @@ Type "quit" (or "exit") to stop.
 import sys
 import torch
 
-from config import (
+from src.config import (
     DEVICE,
     VOCAB_PATH, MERGES_PATH, BEST_MODEL_PATH,
     # Model architecture (must match what was trained)
@@ -26,8 +26,8 @@ from config import (
     # Special tokens
     BOS_TOKEN_ID,
 )
-from tokenizer import BPETokenizer
-from model import SLMModel
+from src.tokenizer import BPETokenizer
+from src.model import SLMModel
 
 
 # =============================================================================
@@ -139,9 +139,9 @@ def generate(
     max_new_tokens : int
         Maximum number of new tokens to generate.
     temperature : float
-        Sampling temperature ∈ (0, ∞).
-        Lower → more focused/deterministic.
-        Higher → more random/creative.
+        Sampling temperature in (0, inf).
+        Lower -> more focused/deterministic.
+        Higher -> more random/creative.
     top_k : int
         Top-k vocabulary cut-off for sampling.
 
@@ -195,7 +195,7 @@ def run_interactive(model: SLMModel, tokenizer: BPETokenizer) -> None:
         Tokenizer for encoding / decoding.
     """
     print("\n" + "=" * 65)
-    print("  MoD SLM — Interactive Inference")
+    print("  MoD SLM -- Interactive Inference")
     print("  Type 'quit' or 'exit' to stop.")
     print("=" * 65)
 

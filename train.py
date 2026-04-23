@@ -20,7 +20,7 @@ import torch
 import torch.nn as nn
 from torch.cuda.amp import GradScaler, autocast
 
-from config import (
+from src.config import (
     DEVICE,
     # Paths
     CORPUS_PATH, VOCAB_PATH, MERGES_PATH,
@@ -40,13 +40,13 @@ from config import (
     # Special tokens
     PAD_TOKEN_ID, BOS_TOKEN_ID,
 )
-from tokenizer import BPETokenizer
-from model import SLMModel, count_parameters
-from dataset import create_dataloader
+from src.tokenizer import BPETokenizer
+from src.model import SLMModel, count_parameters
+from src.dataset import create_dataloader
 
 
 # =============================================================================
-# LEARNING RATE SCHEDULE — cosine decay with linear warmup
+# LEARNING RATE SCHEDULE -- cosine decay with linear warmup
 # =============================================================================
 
 def get_lr(step: int, warmup_steps: int, max_lr: float, min_lr: float) -> float:
@@ -65,7 +65,7 @@ def get_lr(step: int, warmup_steps: int, max_lr: float, min_lr: float) -> float:
     max_lr : float
         Peak learning rate (reached at end of warmup).
     min_lr : float
-        Floor learning rate (approached as step → ∞).
+        Floor learning rate (approached as step -> inf).
 
     Returns
     -------
@@ -77,7 +77,7 @@ def get_lr(step: int, warmup_steps: int, max_lr: float, min_lr: float) -> float:
         return max_lr * (step + 1) / warmup_steps
 
     # Cosine decay after warmup
-    # We map step ∈ [warmup_steps, ∞) to t ∈ [0, 1]
+    # We map step in [warmup_steps, inf) to t in [0, 1]
     progress = (step - warmup_steps) / max(1, 10_000 - warmup_steps)
     progress = min(progress, 1.0)   # cap at 1
     cosine   = 0.5 * (1.0 + math.cos(math.pi * progress))
@@ -228,7 +228,7 @@ def train() -> None:
     3. Load dataset and DataLoader.
     4. Set up AdamW optimiser.
     5. Optionally resume from the latest checkpoint.
-    6. Loop over epochs → batches:
+    6. Loop over epochs -> batches:
        a. Mixed-precision forward pass.
        b. Loss computation (CrossEntropy, ignoring PAD).
        c. Backward pass with GradScaler.
@@ -239,7 +239,7 @@ def train() -> None:
     """
 
     print("=" * 65)
-    print("  MoD SLM — Training")
+    print("  MoD SLM -- Training")
     print(f"  Device : {DEVICE.upper()}")
     print("=" * 65)
 
@@ -250,7 +250,7 @@ def train() -> None:
         print(f"  GPU    : {gpu_name}")
         print(f"  VRAM   : {vram_gb:.1f} GB")
     else:
-        print("  WARNING: CUDA not detected — training on CPU (very slow).")
+        print("  WARNING: CUDA not detected -- training on CPU (very slow).")
 
     # ---- Load tokenizer ----------------------------------------------------
     print("\n[Train] Loading tokenizer ...")
@@ -287,7 +287,7 @@ def train() -> None:
     except MemoryError:
         print(
             "\n[ERROR] Out of memory while building the dataset.\n"
-            "  → Try reducing BATCH_SIZE or CONTEXT_LENGTH in config.py"
+            "  -> Try reducing BATCH_SIZE or CONTEXT_LENGTH in config.py"
         )
         return
 
@@ -327,7 +327,7 @@ def train() -> None:
             model, optimizer, latest_ckpt
         )
     else:
-        print("[Train] No checkpoint found — starting from scratch.")
+        print("[Train] No checkpoint found -- starting from scratch.")
 
     # ---- Training log file -------------------------------------------------
     log_file = open(TRAINING_LOG, 'a', encoding='utf-8')
@@ -340,9 +340,9 @@ def train() -> None:
         epoch_steps  = 0
         epoch_start  = time.time()
 
-        print(f"\n{'─'*60}")
+        print(f"\n{'-'*60}")
         print(f"  Epoch {epoch + 1} / {NUM_EPOCHS}")
-        print(f"{'─'*60}")
+        print(f"{'-'*60}")
 
         for batch_idx, (input_ids, target_ids) in enumerate(loader):
 
@@ -372,11 +372,11 @@ def train() -> None:
                 if 'out of memory' in str(e).lower():
                     print(
                         "\n[OOM ERROR] CUDA out of memory!\n"
-                        "  → Reduce BATCH_SIZE in config.py (currently "
+                        "  -> Reduce BATCH_SIZE in config.py (currently "
                         f"{BATCH_SIZE}).\n"
-                        "  → Or reduce CONTEXT_LENGTH (currently "
+                        "  -> Or reduce CONTEXT_LENGTH (currently "
                         f"{CONTEXT_LENGTH}).\n"
-                        "  → Or reduce NUM_LAYERS (currently "
+                        "  -> Or reduce NUM_LAYERS (currently "
                         f"{NUM_LAYERS})."
                     )
                     torch.cuda.empty_cache()
@@ -422,7 +422,7 @@ def train() -> None:
         avg_epoch_loss = epoch_loss / max(epoch_steps, 1)
         elapsed        = time.time() - epoch_start
         epoch_msg = (
-            f"\n  ✓ Epoch {epoch+1} complete | "
+            f"\n  [OK] Epoch {epoch+1} complete | "
             f"Avg Loss: {avg_epoch_loss:.4f} | "
             f"Time: {elapsed/60:.1f} min"
         )
@@ -432,13 +432,13 @@ def train() -> None:
         # ---- Save per-epoch checkpoint -------------------------------------
         ckpt_path = os.path.join(CHECKPOINT_DIR, f'checkpoint_epoch_{epoch}.pt')
         save_checkpoint(model, optimizer, epoch, global_step, best_loss, ckpt_path)
-        print(f"  [Checkpoint] Saved → '{ckpt_path}'")
+        print(f"  [Checkpoint] Saved -> '{ckpt_path}'")
 
         # ---- Save best model -----------------------------------------------
         if avg_epoch_loss < best_loss:
             best_loss = avg_epoch_loss
             save_checkpoint(model, optimizer, epoch, global_step, best_loss, BEST_MODEL_PATH)
-            print(f"  [Best Model] New best loss {best_loss:.4f} → saved to '{BEST_MODEL_PATH}'")
+            print(f"  [Best Model] New best loss {best_loss:.4f} -> saved to '{BEST_MODEL_PATH}'")
 
     # ---- Training complete -------------------------------------------------
     log_file.write("\nTraining complete.\n")

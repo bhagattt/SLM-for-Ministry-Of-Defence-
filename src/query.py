@@ -1,14 +1,14 @@
 # FILE: query.py
 import torch
 import sys
-from config import (
+from src.config import (
     DEVICE, VOCAB_PATH, MERGES_PATH, BEST_MODEL_PATH,
     VOCAB_SIZE, EMBEDDING_DIM, NUM_HEADS, NUM_LAYERS,
     CONTEXT_LENGTH, FEEDFORWARD_DIM, DROPOUT, 
     BOS_TOKEN_ID
 )
-from tokenizer import BPETokenizer
-from model import SLMModel
+from src.tokenizer import BPETokenizer
+from src.model import SLMModel
 
 def query(prompt):
     tokenizer = BPETokenizer()

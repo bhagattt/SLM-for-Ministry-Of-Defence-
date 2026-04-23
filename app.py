@@ -1,8 +1,8 @@
 # FILE: app.py
 """
-MoD-SLM Interactive Explorer (Streamlit Frontend)
--------------------------------------------------
-A premium web interface for interacting with the fine-tuned MoD-SLM (GPT-2).
+MoD-SLM Interactive Interface (Simplified)
+-------------------------------------------
+A clean, focused interface for interacting with the specialized MoD-SLM.
 """
 
 import streamlit as st
@@ -12,15 +12,14 @@ import time
 
 # --- Page Config ---
 st.set_page_config(
-    page_title="MoD-SLM Stage 1 | Indian Defence AI",
-    page_icon="🛡️",
+    page_title="MoD-MLM Interface",
+    page_icon="ML",
     layout="wide",
 )
 
-# --- Premium Custom Styling (MoD / Indian Defence Aesthetic) ---
+# --- Basic Dark Theme Styling ---
 st.markdown("""
     <style>
-    /* Dark Theme Accents */
     .stApp {
         background-color: #0c1221;
         color: #e0e0e0;
@@ -29,32 +28,18 @@ st.markdown("""
         background-color: #060a14 !important;
         border-right: 1px solid #1c2e4a;
     }
-    
-    /* Chat Aesthetics */
     .stChatMessage {
-        border-radius: 12px;
+        border-radius: 8px;
         padding: 10px;
         margin-bottom: 10px;
         border: 1px solid #1c2e4a;
     }
-    .stChatMessage[data-testid="stChatMessageUser"] {
-        background-color: #1c2e4a !important;
-    }
     .stChatMessage[data-testid="stChatMessageAssistant"] {
         background-color: #060a14 !important;
-        border-left: 4px solid #f9a825 !important; /* Gold MoD accent */
+        border-left: 2px solid #555 !important;
     }
-
-    /* Header Styling */
-    h1, h2, h3 {
-        color: #f9a825 !important;
-        font-family: 'Inter', sans-serif;
-    }
-    
-    /* Input Box */
     .stChatInputContainer {
-        border-radius: 20px;
-        border: 1px solid #f9a825 !important;
+        border-radius: 10px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -63,11 +48,10 @@ st.markdown("""
 # --- Model Loading (Cached) ---
 @st.cache_resource
 def load_mo_slm():
-    model_dir = "./hf_mod_model"
-    # Check if model exists
+    model_dir = "models/hf_fine_tuned"
     import os
     if not os.path.exists(model_dir):
-        st.error("Model not found! Run the training first: `python hf_train.py`")
+        st.error("Model weights not found. Ensure training is complete.")
         st.stop()
     
     tokenizer = GPT2Tokenizer.from_pretrained(model_dir)
@@ -82,34 +66,34 @@ def load_mo_slm():
     )
     return gen_pipeline, tokenizer
 
-# --- Initialize Sidebar Stats ---
+# --- Sidebar ---
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/e/ee/Emblem_of_India.svg", width=80)
-    st.title("🛡️ MoD-SLM Info")
     st.markdown("---")
-    st.info("**Stage 1 Completed**")
-    st.success("Target: Standard Laptop GPU")
-    
-    st.markdown("### Technical Pulse")
-    st.metric("Parameters", "124M (GPT-2 FT)")
-    st.metric("VRAM Usage", "~2.1 GB")
-    st.metric("Training Status", "Converged")
+    st.markdown("### Quick Queries")
+    if st.button("Role of the CDS"):
+        st.session_state.messages.append({"role": "user", "content": "What is the role of the Chief of Defence Staff (CDS)?"})
+    if st.button("Agnipath Scheme"):
+        st.session_state.messages.append({"role": "user", "content": "Explain the Agnipath scheme."})
+    if st.button("DAP 2020 Overview"):
+        st.session_state.messages.append({"role": "user", "content": "What is the Defence Acquisition Procedure (DAP) 2020?"})
     
     st.markdown("---")
-    st.button("Reset Conversation", on_click=lambda: st.session_state.clear())
+    if st.button("Clear Conversation"):
+        st.session_state.clear()
+        st.rerun()
 
-# --- Main Interaction Logic ---
-st.title("🛡️ MoD-SLM Interactive Knowledge Base")
-st.caption("Custom Fine-tuned SLM specializing in Indian Ministry of Defence Policies & General Knowledge.")
+# --- Main Interface ---
+st.title("MoD-MLM Specialized Knowledge Base")
+st.caption("A micro language model specializing in Ministry of Defence (MoD) policy and procedural knowledge.")
 
 # Load Model
-with st.spinner("Initializing MoD-SLM Brain..."):
+with st.spinner("Loading Weights..."):
     generator, tokenizer = load_mo_slm()
 
 # Initialize Chat History
 if "messages" not in st.session_state:
     st.session_state.messages = [
-        {"role": "assistant", "content": "Jai Hind! I am the MoD-SLM. I'm trained on policy circulars, legal text, and audit reports of the Ministry of Defence. How can I assist you today?"}
+        {"role": "assistant", "content": "I am the MoD-MLM. How can I assist you with Ministry of Defence policy or procedural questions today?"}
     ]
 
 # Display Chat History
@@ -118,8 +102,7 @@ for message in st.session_state.messages:
         st.markdown(message["content"])
 
 # User prompt
-if prompt := st.chat_input("Ask about MoD policies, Agnipath scheme, or hierarchy..."):
-    # Add user message to history
+if prompt := st.chat_input("Enter your query..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -127,39 +110,50 @@ if prompt := st.chat_input("Ask about MoD policies, Agnipath scheme, or hierarch
     # Generate Response
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        message_placeholder.markdown("🔍 Consulting MoD Knowledge Base...")
+        message_placeholder.markdown("Consulting MoD Knowledge Base...")
         
         try:
-            # Generate
+            # Domain-Specific Constraint ("Fake RAG" Prompt Engineering)
+            system_prompt = (
+                "You are the MoD-MLM, a specialized assistant for the Indian Ministry of Defence. "
+                "Your knowledge is strictly limited to MoD personnel rules, procurement (DAP 2020), "
+                "and legal guidelines. Do NOT answer general knowledge questions outside this domain. "
+                "If asked about anything else, politely state you are specialized ONLY for MoD data. "
+                f"Question: {prompt} \nAnswer:"
+            )
+
             output = generator(
-                prompt,
-                max_new_tokens=100,
+                system_prompt,
+                max_new_tokens=256,
                 num_return_sequences=1,
-                temperature=0.3,
+                temperature=0.1,
                 top_p=0.9,
                 pad_token_id=tokenizer.eos_token_id,
                 truncation=True
             )
             
             full_text = output[0]['generated_text']
-            # Simple response cleanup (strip prompt if repeated)
-            response = full_text[len(prompt):].strip()
             
-            # Simulate "streaming" effect for better UX
+            # Robust Response Extraction: Find the "Answer:" boundary
+            if "Answer:" in full_text:
+                response = full_text.split("Answer:")[1].strip()
+            else:
+                # Fallback to length-slicing if the model removed the anchor
+                response = full_text[len(system_prompt):].strip()
+
+            # If the model is completely blank, provide a fallback
+            if not response:
+                response = "I am specialized only for MoD data. Please rephrase your query related to personnel or procurement."
+            
+            # Simulated streaming
             full_response = ""
             for chunk in response.split():
                 full_response += chunk + " "
-                time.sleep(0.05)
+                time.sleep(0.04)
                 message_placeholder.markdown(full_response + "▌")
             
             message_placeholder.markdown(full_response)
-            
-            # Add to history
             st.session_state.messages.append({"role": "assistant", "content": full_response})
             
         except Exception as e:
-            st.error(f"Error during inference: {e}")
-
-# --- Footer ---
-st.markdown("---")
-st.markdown("<p style='text-align: center; color: grey;'>Proprietary Interface for MoD SLM Presentation | Developed with Pure PyTorch & HuggingFace</p>", unsafe_allow_html=True)
+            st.error(f"Inference error: {e}")

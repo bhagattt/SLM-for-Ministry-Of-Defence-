@@ -19,13 +19,13 @@ from transformers import (
 )
 
 # Paths
-CORPUS_PATH     = "mod_slm_stage1_corpus.txt"
-OUTPUT_DIR      = "./hf_mod_model"
-LOGGING_DIR     = "./logs"
+CORPUS_PATH     = "data/processed/mod_slm_stage1_corpus.txt"
+OUTPUT_DIR      = "models/hf_fine_tuned"
+LOGGING_DIR     = "models/logs"
 
 def train():
     print("="*60)
-    print("  MoD SLM — GPT-2 Fine-Tuning (Hugging Face)")
+    print("  MoD SLM -- GPT-2 Fine-Tuning (Hugging Face)")
     print("="*60)
 
     # 1. Load Pre-trained GPT2 Model and Tokenizer

@@ -3,7 +3,7 @@ import torch
 import sys
 from transformers import GPT2LMHeadModel, GPT2Tokenizer, pipeline
 
-MODEL_DIR = "./hf_mod_model"
+MODEL_DIR = "models/hf_fine_tuned"
 
 def query(prompt):
     tokenizer = GPT2Tokenizer.from_pretrained(MODEL_DIR)
